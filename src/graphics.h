@@ -10,10 +10,6 @@ private:
     GLFWwindow* window;
 public:
 
-    /* Initialize the graphics
-     * returns false if something failed */
-    bool init(void);
-
     /* Create a window
      * returns false if something failed */
     bool createWindow(int width, int height, const char* title);

@@ -1,18 +1,16 @@
-#include "graphics.h"
+#define GLEW_STATIC
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
-/* Initialize the graphics
- * returns false if something failed */
-bool Graphics::init(void)
-{
-    /* Initialize the GLFW library */
-    return glfwInit();
-}
+#include <iostream>
+#include "graphics.h"
 
 /* Create a window
  * returns false if something failed */
 bool Graphics::createWindow(int width, int height, const char* title)
 {
+    /* Initialize the GLFW library */
+    if (!glfwInit()) return false;
+
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(width, height, title, NULL, NULL);
     if (!window)
@@ -22,6 +20,17 @@ bool Graphics::createWindow(int width, int height, const char* title)
     }
 
     glfwMakeContextCurrent(window);
+
+    /* Initialize glew for modern OpenGL */
+    if (glewInit() != GLEW_OK)
+    {
+        glfwTerminate();
+        return false;
+    }
+
+    std::cout << "Using OpenGL version " << glGetString(GL_VERSION) <<std::endl;
+
+    return true;
 }
 
 /* Determine whether something's trying to close the window */
