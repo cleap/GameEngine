@@ -4,10 +4,23 @@
 #include <iostream>
 #include "graphics.h"
 
+float Graphics::getCxtX(float xCor)
+{
+    return (2 * xCor) / winWidth - 1.0f;
+}
+float Graphics::getCxtY(float yCor)
+{
+    return (2 * yCor) / winHeight - 1.0f;
+}
+
 /* Create a window
  * returns false if something failed */
 bool Graphics::createWindow(int width, int height, const char* title)
 {
+
+    winWidth = width;
+    winHeight = height;
+
     /* Initialize the GLFW library */
     if (!glfwInit()) return false;
 
@@ -49,6 +62,22 @@ void Graphics::render(void)
     glVertex2f(-0.5f, -0.5f);
     glVertex2f( 0.0f,  0.5f);
     glVertex2f( 0.5f, -0.5f);
+    glEnd();
+
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+}
+
+/* Renders the given GameObject */
+void Graphics::render(GameObject go)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glBegin(GL_QUADS);
+    glVertex2f(getCxtX(go.getX()), getCxtY(go.getY()));
+    glVertex2f(getCxtX(go.getX()), getCxtY(go.getY()+go.getHeight()));
+    glVertex2f(getCxtX(go.getX()+go.getWidth()), getCxtY(go.getY()+go.getHeight()));
+    glVertex2f(getCxtX(go.getX()+go.getWidth()), getCxtY(go.getY()));
     glEnd();
 
     glfwSwapBuffers(window);
