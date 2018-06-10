@@ -2,7 +2,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <array>
 #include "graphics.h"
+#include "consts.h"
 
 float Graphics::getCxtX(float xCor)
 {
@@ -69,17 +71,26 @@ void Graphics::render(void)
 }
 
 /* Renders the given GameObject */
-void Graphics::render(GameObject go)
+void Graphics::render(GameObject* go)
 {
-    glClear(GL_COLOR_BUFFER_BIT);
-
     glBegin(GL_QUADS);
-    glVertex2f(getCxtX(go.getX()), getCxtY(go.getY()));
-    glVertex2f(getCxtX(go.getX()), getCxtY(go.getY()+go.getHeight()));
-    glVertex2f(getCxtX(go.getX()+go.getWidth()), getCxtY(go.getY()+go.getHeight()));
-    glVertex2f(getCxtX(go.getX()+go.getWidth()), getCxtY(go.getY()));
+    glVertex2f(getCxtX(go->getX()), getCxtY(go->getY()));
+    glVertex2f(getCxtX(go->getX()), getCxtY(go->getY()+go->getHeight()));
+    glVertex2f(getCxtX(go->getX()+go->getWidth()), getCxtY(go->getY()+go->getHeight()));
+    glVertex2f(getCxtX(go->getX()+go->getWidth()), getCxtY(go->getY()));
     glEnd();
+}
 
+/* Renders the game objects given */
+void Graphics::render(std::array<GameObject*, MAX_GAME_OBJECTS> gos)
+{
+    //std::vector<GameObject*>::iterator it;
+    glClear(GL_COLOR_BUFFER_BIT);
+    //for (it = gos.begin(); it != gos.end(); ++it)
+    for (GameObject* it : gos)
+    {
+        if (it != NULL) render(it);
+    }
     glfwSwapBuffers(window);
     glfwPollEvents();
 }

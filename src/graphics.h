@@ -2,8 +2,10 @@
 #define GRAPHICS_H
 
 #include "utils.h"
+#include "consts.h"
 #include "gameobject.h"
 #include <GLFW/glfw3.h>
+#include <array>
 
 class Graphics
 {
@@ -26,10 +28,15 @@ public:
     void render(void);
 
     /* Renders the given GameObject */
-    void render(GameObject go);
+    void render(GameObject* go);
+
+    /* Renders the game objects given */
+    void render(std::array<GameObject*, MAX_GAME_OBJECTS> gos);
 
     /* Cleanup any resources used by the graphics */
     void cleanup();
+
+    GLFWwindow* getWindow(void) { return window; }
 
     /* Probably don't use this ¯\_(ツ)_/¯*/
     int test(void);
